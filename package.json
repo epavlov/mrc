@@ -1,0 +1,19 @@
+{
+  "name": "mrc",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/epavlov/mrc.git"
+  },
+  "author": "Eugene Pavlov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/epavlov/mrc/issues"
+  },
+  "homepage": "https://github.com/epavlov/mrc#readme"
+}
