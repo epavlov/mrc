@@ -1,6 +1,6 @@
 # mars rover simulator
 
-###To run:
+### To run:
 ```javascript
 var grid = new Grid(5, 5);
 grid.generateGrid();
@@ -11,7 +11,7 @@ var rover = new Rover(grid, [0, 0], EAST);
 rover.performCommands("flfrf");
 ```
 
-###Output:
+### Output:
 ```
 Obsticle detected!
 Turned
