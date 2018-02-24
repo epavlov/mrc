@@ -32,7 +32,7 @@ Grid.prototype.generateGrid = function () {
     this.cells = arrayOfCells;
 };
 
-// When adding obstacle, replace '0' with '1' one the grid to indicate obstacle in the cell
+// When adding obstacle, replace '0' with '1' on the grid to indicate obstacle in the cell
 Grid.prototype.addObstacle = function (coordinates) {
     this.cells[coordinates[0]][coordinates[1]] = 1;
 };
@@ -64,6 +64,15 @@ Rover.prototype.move = function(moveDirection) {
             x = x + (1 * moveDirection);
             break;
     }
+    
+    // Connect the grid and flip coordinates
+    if (x == -1) {
+        x = this.grid.rows - 1;
+    }
+
+    if (y == -1) {
+        y = this.grid.columns - 1;
+    }
 
     // New coordinates equired
     // Check for obsticles before moving
@@ -73,6 +82,7 @@ Rover.prototype.move = function(moveDirection) {
         // No obsticle in the next grid cell, free to move
         this.x = x;
         this.y = y;
+        console.log("Moved to: " + x + ", " + y);
     }
 };
 
@@ -87,43 +97,50 @@ Rover.prototype.turn = function(turnDirection) {
     } else {
         this.direction = this.direction + (1 * turnDirection);
     }
+    console.log("Turned");
 };
 
 // Check if next cell on a grid contains obsticle and return bool value
 Rover.prototype.obsticleScan = function(coordinates) {
-    if (this.grid[coordinates[0]][coordinates[1]] == 1) {
+    if (this.grid.cells[coordinates[0]][coordinates[1]] == 1) {
         return true;
     } else {
         return false;
     }
 }
 
-
-// DEBUGGING CODE
-var g = new Grid(2, 2);
-g.generateGrid();
-g.addObstacle([0,1]);
-
-// Print out grid
-g.cells.forEach(element => {
-    element.forEach(e => {
-        //console.log(e);
+Rover.prototype.performCommands = function(commands) {
+    var arrayOfCommands = commands.split('');
+    arrayOfCommands.forEach(command => {
+        switch (command) {
+            case 'f':
+                this.move(1);
+                break;
+            case 'b':
+                this.move(-1);
+                break;
+            case 'l':
+                this.turn(-1);
+                break;
+            case 'r':
+                this.turn(1);
+                break;
+            default:
+                console.log('Undefined command detected!');
+                break;
+        }
     });
-});
+}
+
+
+// EXAMPLE RUNNING CODE
+// 5 by 5 grid with one obstacle
+// Rover at 0, 0 facing EAST
+var g = new Grid(5, 5);
+g.generateGrid();
+g.addObstacle([1, 0]);
 
 var r = new Rover(g, [0, 0], EAST);
 
-// initial rover position
-console.log("X: " + r.x + " Y: " + r.y);
-
-r.move(-1); // go backwards
-r.move(-1); // go forward
-
-// position after moving
-console.log("X: " + r.x + " Y: " + r.y);
-
-//turn rover
-console.log(r.direction);
-r.turn(1);
-console.log("New direction: " + r.direction);
+r.performCommands("flfrf");
 
