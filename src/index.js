@@ -5,7 +5,7 @@ module.exports = {
 function Grid(rows, columns) {
     this.rows = rows;
     this.columns = columns;
-    this.cells = []
+    this.cells = [];
 }
 
 Grid.prototype.generateGrid = function () {
@@ -23,12 +23,18 @@ Grid.prototype.generateGrid = function () {
         }
     }
     console.log(arrayOfCells);
-    this.cells = arrayOfCells
+    this.cells = arrayOfCells;
 };
 
 Grid.prototype.addObstacle = function (coordinates) {
     this.cells[coordinates[0]][coordinates[1]] = 1;
 };
+
+function Rover(grid, locCoordinates) {
+    this.grid = grid;
+    this.x = locCoordinates[0];
+    this.y = locCoordinates[1];
+}
 
 var g = new Grid(2, 2);
 g.generateGrid();
