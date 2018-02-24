@@ -47,19 +47,32 @@ function Rover(grid, locCoordinates, direction) {
 // Moving Rover
 // moveDirection can be two values: +1 (to move forward) and -1 (to move backwards)
 Rover.prototype.move = function(moveDirection) {
+    var x = this.x;
+    var y = this.y;
+
     switch (this.direction) {
         case NORTH:
-            this.y = this.y + (1 * moveDirection);
+            y = y + (1 * moveDirection);
             break;
         case SOUTH:
-            this.y = this.y - (1 * moveDirection);
+            y = y - (1 * moveDirection);
             break;
         case WEST:
-            this.x = this.x - (1 * moveDirection);
+            x = x - (1 * moveDirection);
             break;
         case EAST:
-            this.x = this.x + (1 * moveDirection);
+            x = x + (1 * moveDirection);
             break;
+    }
+
+    // New coordinates equired
+    // Check for obsticles before moving
+    if (this.obsticleScan([x, y])) {
+        console.log("Obsticle detected!");
+    } else {
+        // No obsticle in the next grid cell, free to move
+        this.x = x;
+        this.y = y;
     }
 };
 
@@ -75,6 +88,15 @@ Rover.prototype.turn = function(turnDirection) {
         this.direction = this.direction + (1 * turnDirection);
     }
 };
+
+// Check if next cell on a grid contains obsticle and return bool value
+Rover.prototype.obsticleScan = function(coordinates) {
+    if (this.grid[coordinates[0]][coordinates[1]] == 1) {
+        return true;
+    } else {
+        return false;
+    }
+}
 
 
 // DEBUGGING CODE
@@ -95,19 +117,13 @@ var r = new Rover(g, [0, 0], EAST);
 console.log("X: " + r.x + " Y: " + r.y);
 
 r.move(-1); // go backwards
-r.move(1); // go forward
+r.move(-1); // go forward
 
 // position after moving
 console.log("X: " + r.x + " Y: " + r.y);
 
 //turn rover
 console.log(r.direction);
-r.turn(1);
-console.log("New direction: " + r.direction);
-r.turn(1);
-console.log("New direction: " + r.direction);
-r.turn(1);
-console.log("New direction: " + r.direction);
 r.turn(1);
 console.log("New direction: " + r.direction);
 
