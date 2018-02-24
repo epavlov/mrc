@@ -1,8 +1,8 @@
 // Constants
-var NORTH = 'N';
-var SOUTH = 'S';
-var WEST = 'W';
-var EAST = 'E';
+var NORTH = 1;
+var EAST = 2;
+var SOUTH = 3;
+var WEST = 4;
 
 module.exports = {
     'Grid': Grid,
@@ -44,23 +44,6 @@ function Rover(grid, locCoordinates, direction) {
     this.direction = direction
 }
 
-Rover.prototype.goForward = function() {
-    switch (this.direction) {
-        case NORTH:
-            this.y = this.y + 1;
-            break;
-        case SOUTH:
-            this.y = this.y - 1;
-            break;
-        case WEST:
-            this.x = this.x - 1;
-            break;
-        case EAST:
-            this.x = this.x + 1;
-            break;
-    }
-};
-
 // Moving Rover
 // moveDirection can be two values: +1 (to move forward) and -1 (to move backwards)
 Rover.prototype.move = function(moveDirection) {
@@ -80,6 +63,19 @@ Rover.prototype.move = function(moveDirection) {
     }
 };
 
+// Turning rover
+// turnDirection can be two values: +1 (to turn right) and -1 (to turn left)
+Rover.prototype.turn = function(turnDirection) {
+    // cycle thru directions 1..4
+    if (this.direction == 4 && turnDirection == 1) { 
+        this.direction = 1; 
+    } else if (this.direction == 0 && turnDirection == -1) {
+        this.direction = 4; 
+    } else {
+        this.direction = this.direction + (1 * turnDirection);
+    }
+};
+
 
 // DEBUGGING CODE
 var g = new Grid(2, 2);
@@ -94,8 +90,24 @@ g.cells.forEach(element => {
 });
 
 var r = new Rover(g, [0, 0], EAST);
-console.log("X: " + r.x + " Y: " + r.y)
+
+// initial rover position
+console.log("X: " + r.x + " Y: " + r.y);
+
 r.move(-1); // go backwards
 r.move(1); // go forward
 
-console.log("X: " + r.x + " Y: " + r.y)
+// position after moving
+console.log("X: " + r.x + " Y: " + r.y);
+
+//turn rover
+console.log(r.direction);
+r.turn(1);
+console.log("New direction: " + r.direction);
+r.turn(1);
+console.log("New direction: " + r.direction);
+r.turn(1);
+console.log("New direction: " + r.direction);
+r.turn(1);
+console.log("New direction: " + r.direction);
+
